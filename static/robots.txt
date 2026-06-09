@@ -1,3 +1,39 @@
-# allow crawling everything by default
+# qovira.ai — placeholder site
+# Crawl everything (index, follow). AI answer-engine / cite bots are explicitly
+# welcomed so they can crawl and cite Qovira; training crawlers are allowed too
+# — for a brand placeholder, presence in answer engines and corpora is upside.
+
 User-agent: *
-Disallow:
+Allow: /
+
+# OpenAI
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Google (Gemini / AI Overviews)
+User-agent: Google-Extended
+Allow: /
+
+# Microsoft (Bing / Copilot)
+User-agent: Bingbot
+Allow: /
+
+# Common Crawl (training corpora)
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://qovira.ai/sitemap.xml
