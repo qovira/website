@@ -1,5 +1,8 @@
 node_modules
 
+# Brand-asset build scratch (outputs are committed under static/)
+.asset-build
+
 # Output
 .output
 .vercel

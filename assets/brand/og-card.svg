@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Qovira OG / social card — 1200x630, the brand "Statement" template.
+  Evening field, large Fraunces headline, lamp-glow spark, Keyhole-Q + wordmark
+  lockup top-left, JetBrains Mono tagline. Rendered with the theme's own
+  self-hosted fonts (Fraunces, JetBrains Mono) by scripts/build-brand-assets.sh.
+-->
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="lamp" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E0A458" stop-opacity="0.34" />
+      <stop offset="45%" stop-color="#E0A458" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#E0A458" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="vignette" cx="34%" cy="44%" r="82%">
+      <stop offset="55%" stop-color="#15100C" stop-opacity="0" />
+      <stop offset="100%" stop-color="#0E0A07" stop-opacity="0.7" />
+    </radialGradient>
+    <!-- fine film grain: breaks 8-bit gradient banding and adds warm texture -->
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch" result="n" />
+      <feColorMatrix in="n" type="saturate" values="0" />
+    </filter>
+    <mask id="kh">
+      <rect width="512" height="512" fill="white" />
+      <g fill="black">
+        <circle cx="256" cy="222" r="92" />
+        <path d="M 226 236 L 286 236 L 314 350 Q 314 362 302 362 L 210 362 Q 198 362 198 350 Z" />
+      </g>
+    </mask>
+  </defs>
+
+  <!-- Evening field -->
+  <rect width="1200" height="630" fill="#15100C" />
+  <!-- lamp-glow behind the headline -->
+  <ellipse cx="430" cy="356" rx="560" ry="360" fill="url(#lamp)" />
+  <rect width="1200" height="630" fill="url(#vignette)" />
+  <rect width="1200" height="630" filter="url(#grain)" opacity="0.05" />
+
+  <!-- top-left lockup: Keyhole-Q mark + wordmark -->
+  <g transform="translate(76 60)">
+    <g transform="scale(0.1015)" fill="#E0A458">
+      <circle cx="256" cy="250" r="172" mask="url(#kh)" />
+      <path d="M 312.8 349.2 L 355.2 306.8 L 409.7 392.3 L 398.3 403.7 Z" />
+    </g>
+    <text x="66" y="42" font-family="Fraunces" font-weight="500" font-size="40" letter-spacing="-0.2" fill="#F3ECDF">Qov<tspan fill="#E0A458">i</tspan>ra</text>
+  </g>
+
+  <!-- headline -->
+  <g fill="#F3ECDF" font-family="Fraunces" font-weight="500" font-size="92" letter-spacing="-0.9">
+    <text x="74" y="316">The assistant that</text>
+    <text x="74" y="414">never leaves the room.</text>
+  </g>
+
+  <!-- mono tagline -->
+  <text x="76" y="556" font-family="JetBrains Mono" font-weight="400" font-size="26" letter-spacing="1.5" fill="#E0A458">Your assistant. Yours alone.</text>
+</svg>
