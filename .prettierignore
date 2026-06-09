@@ -3,3 +3,5 @@ build
 node_modules
 coverage
 pnpm-lock.yaml
+.asset-build
+static

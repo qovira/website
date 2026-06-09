@@ -35,3 +35,22 @@ pnpm check      # svelte-check (types + a11y)
 pnpm lint       # prettier --check + eslint
 pnpm test       # Playwright smoke + accessibility
 ```
+
+## Brand assets
+
+The OG/social card and the favicon/app-icon set (the Keyhole-Q mark) are
+committed under `static/` and served as-is. They are **generated**, not
+hand-edited: the SVG masters live in `assets/brand/` and the raster outputs are
+rebuilt by
+
+```sh
+pnpm assets     # scripts/build-brand-assets.sh
+```
+
+The OG card is rendered with the theme's own self-hosted fonts — Fraunces and
+JetBrains Mono are instanced from `@qovira/theme`'s variable woff2 to the brand's
+display/mono weights — so the card always matches the live page's type. Edit a
+master in `assets/brand/`, run `pnpm assets`, and commit the regenerated files.
+
+Requires these host tools (not npm deps): `woff2_decompress`, `fonttools`,
+`rsvg-convert` (librsvg), `magick` (ImageMagick 7), `fc-cache`.

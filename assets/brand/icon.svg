@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Qovira favicon — the Keyhole Q logomark on an Evening espresso field.
-  Master lives at assets/brand/icon.svg; the full app-icon set is generated
-  into static/ by scripts/build-brand-assets.sh.
+  Qovira app icon — the Keyhole Q logomark on an Evening espresso field.
+  The letter Q drawn as a keyhole: a bold honey ring whose counter is a
+  keyhole (round top + tapering slot), finished with a short tapered serif
+  tail crossing the ring at the lower right. "It stays in the room."
+  Honey #E0A458 on espresso #1E1712, drawn on a 512 grid.
 -->
 <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Qovira">
   <defs>
@@ -10,6 +12,7 @@
       <stop offset="0%" stop-color="#E0A458" stop-opacity="0.16" />
       <stop offset="100%" stop-color="#E0A458" stop-opacity="0" />
     </radialGradient>
+    <!-- the keyhole counter, cut out of the Q's bowl: round top + tapering slot -->
     <mask id="counter">
       <rect width="512" height="512" fill="white" />
       <g fill="black">
@@ -18,10 +21,15 @@
       </g>
     </mask>
   </defs>
+
+  <!-- Evening field, soft-rounded square -->
   <rect width="512" height="512" rx="112" fill="#1E1712" />
   <circle cx="256" cy="238" r="210" fill="url(#glow)" />
+
   <g fill="#E0A458">
+    <!-- Q bowl as a bold ring: a disk with the keyhole counter masked away -->
     <circle cx="256" cy="250" r="172" mask="url(#counter)" />
+    <!-- Q tail: a short tapered serif crossing the ring at lower right -->
     <path d="M 312.8 349.2 L 355.2 306.8 L 409.7 392.3 L 398.3 403.7 Z" />
   </g>
 </svg>
