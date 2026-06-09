@@ -1,1 +1,19 @@
 @import "tailwindcss";
+@import "@qovira/theme";
+@import "@qovira/theme/fonts";
+/* @qovira/ui ships uncompiled .svelte source; Tailwind v4 only generates CSS
+   for classes it actually sees. This import resolves via the package's `style`
+   export to a stylesheet that registers the library's components with Tailwind
+   (its README's required line — `@source "@qovira/ui"` does NOT work, it
+   resolves to the JS entry and the components render unstyled). */
+@import "@qovira/ui";
+
+/* The theme styles tokens but deliberately leaves the page surface to the
+   consumer. Paint the whole viewport with the app background + primary text so
+   there is no bare overscroll; both track whichever theme is on <html>. */
+@layer base {
+  html {
+    background-color: var(--bg);
+    color: var(--text);
+  }
+}
