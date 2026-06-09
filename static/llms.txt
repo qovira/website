@@ -1,0 +1,21 @@
+# Qovira
+
+> Qovira is a private, self-hostable personal assistant — reminders, notes, calendar, and quick answers, organized by AI that runs on a server you own and a model you choose.
+
+Qovira keeps the personal core of your life — reminders, calendar, notes, tasks, and quick answers — as real, structured entries you talk to in plain language. Everything runs on a server you own and a model you choose; nothing phones home. It is open source and self-hosted, secure enough to put on the open internet, and yours alone.
+
+This page is the placeholder for qovira.ai, published before the product ships. The product is open source and coming soon.
+
+## Who it's for
+
+People who want a capable personal assistant without handing their private life to a cloud service — anyone comfortable self-hosting (Linux/Docker) who wants reminders, notes, calendar, and quick answers organized by an AI they control.
+
+## Privacy posture
+
+- Private by architecture: Qovira runs on your own server, talking only to the model you choose.
+- Nothing phones home: the self-hosted product never calls out on its own.
+- Open source: auditable, and self-hostable for free.
+
+## Links
+
+- [GitHub](https://github.com/qovira/qovira): source code and self-host quickstart
