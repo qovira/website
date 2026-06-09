@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "@qovira/theme": "^1.0.2",
-    "@qovira/ui": "^1"
+    "@qovira/ui": "^1",
+    "phosphor-svelte": "^3.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
