@@ -1,0 +1,13 @@
+{
+  "name": "Qovira",
+  "short_name": "Qovira",
+  "description": "Qovira is a private, self-hostable assistant — reminders, notes, calendar, and quick answers, organized by AI on a server you own and a model you choose.",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#15100C",
+  "background_color": "#15100C",
+  "display": "standalone",
+  "start_url": "/"
+}
