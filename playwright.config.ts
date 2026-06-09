@@ -13,9 +13,9 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  // Sharded CI merges blob reports into one HTML report (writing-playwright);
-  // a readable list locally.
-  reporter: process.env.CI ? "blob" : "list",
+  // One non-sharded job, so blob/merge-reports buys nothing: GitHub annotations
+  // + a console list in CI, a readable list locally.
+  reporter: process.env.CI ? [["github"], ["list"]] : "list",
   use: {
     baseURL: `http://localhost:${PORT}`,
     trace: "on-first-retry",

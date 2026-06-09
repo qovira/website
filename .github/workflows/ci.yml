@@ -1,0 +1,116 @@
+name: CI
+
+# Verify every PR and push to main; on green main, build and ship the static
+# site to Bunny Storage (origin) behind the Bunny CDN pull zone serving
+# qovira.ai. Deploy only runs after verify passes.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Least privilege: the workflow only reads the repo. Bunny is reached with
+# secrets, not the GITHUB_TOKEN, so no write scopes are needed.
+permissions:
+  contents: read
+
+# Supersede redundant PR runs (keyed by source branch), but give every push its
+# own group (head_ref is empty on push → run_id) so a main run — and its deploy —
+# is never cancelled mid-flight by a newer push. The deploy job adds its own
+# serialized, non-cancelable group below.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    # House rule: every job runs on Blacksmith (writing-workflows). The npm
+    # Trusted-Publishing exception doesn't apply — this site doesn't publish.
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4 # version comes from package.json packageManager
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # svelte-check IS the typecheck for a SvelteKit app — it wraps tsc with
+      # Svelte support, so a bare `tsc --noEmit` (which can't parse .svelte) is
+      # intentionally not a separate step; svelte-check covers the .ts too.
+      - run: pnpm check
+      # prettier --check . && eslint .
+      - run: pnpm lint
+      # Playwright browsers aren't auto-installed; the spec uses chromium only.
+      - run: pnpm exec playwright install --with-deps chromium
+      # Builds, previews, and tests the real prerendered build/ (see playwright.config.ts).
+      - run: pnpm test
+
+  deploy:
+    needs: verify
+    # Only ship from main, and only on push (never on a PR from a fork).
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Serialize deploys: a new one waits for the running one rather than
+    # cancelling it mid-upload (no cancel-in-progress here).
+    concurrency:
+      group: bunny-deploy
+      cancel-in-progress: false
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+      # Push the build to the Storage Zone origin (native Storage HTTP API).
+      - name: Upload build/ to Bunny Storage
+        env:
+          BUNNY_STORAGE_ENDPOINT: ${{ vars.BUNNY_STORAGE_ENDPOINT }}
+          BUNNY_STORAGE_ZONE: ${{ vars.BUNNY_STORAGE_ZONE }}
+          BUNNY_STORAGE_PASSWORD: ${{ secrets.BUNNY_STORAGE_PASSWORD }}
+        run: bash .github/scripts/bunny-deploy.sh
+
+      # Purge the whole pull zone so the new release is live immediately,
+      # regardless of any edge/browser TTL.
+      - name: Purge pull zone
+        env:
+          BUNNY_PULLZONE_ID: ${{ vars.BUNNY_PULLZONE_ID }}
+          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+        run: |
+          : "${BUNNY_PULLZONE_ID:?missing vars.BUNNY_PULLZONE_ID}"
+          : "${BUNNY_API_KEY:?missing secrets.BUNNY_API_KEY}"
+          curl --fail-with-body -sS -X POST \
+            "https://api.bunny.net/pullzone/${BUNNY_PULLZONE_ID}/purgeCache" \
+            -H "AccessKey: ${BUNNY_API_KEY}"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Cache-Control policy (enforced on the Bunny Pull Zone, NOT in this workflow —
+# Bunny Storage can't carry per-object cache headers). Provisioned once per the
+# deploy runbook (Runbooks/, created when the site is real); documented here so
+# the rule set is unambiguous. SvelteKit emits every fingerprinted asset under
+# `_app/immutable/`, so two path-based Edge Rules cover everything:
+#
+#   1. Path matches `*/_app/immutable/*`  → SetResponseHeader
+#        Cache-Control: public, max-age=31536000, immutable
+#   2. Everything else (index.html, llms.txt, robots.txt, sitemap.xml, icons,
+#      og-card.webp, site.webmanifest) → short TTL / revalidate, e.g.
+#        Cache-Control: public, max-age=300, must-revalidate
+#
+# The deploy purge above means even short-TTL files update instantly on release.
+#
+# Deploy runbook (note, not built here — see the issue's "out of scope"): create
+# the Storage Zone + Pull Zone (serving qovira.ai), the two Edge Rules above, the
+# ClouDNS record + Bunny-managed TLS, and the GitHub config below. Rollback = re-
+# run this workflow on a prior commit.
+#
+# Required GitHub config (secrets = the two keys; non-secret ids = repo Variables):
+#   secrets.BUNNY_STORAGE_PASSWORD   storage zone password (Storage API AccessKey)
+#   secrets.BUNNY_API_KEY            account API key (pull-zone purge)
+#   vars.BUNNY_STORAGE_ENDPOINT      storage region host, e.g. storage.bunnycdn.com
+#   vars.BUNNY_STORAGE_ZONE          storage zone name
+#   vars.BUNNY_PULLZONE_ID           pull zone numeric id
+# ──────────────────────────────────────────────────────────────────────────────
