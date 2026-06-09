@@ -8,6 +8,8 @@
          the stylesheets below, so data-theme is set on <html> before paint. -->
     <!--qovira:head-->
     %sveltekit.head%
+    <!-- Plausible analytics, injected by hooks.server.ts in production builds only. -->
+    <!--qovira:analytics-->
   </head>
   <body data-sveltekit-preload-data="hover">
     <div style="display: contents">%sveltekit.body%</div>

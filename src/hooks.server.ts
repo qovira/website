@@ -16,9 +16,17 @@ const themeHead = [
   `<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1E9DC" />`,
 ].join("\n    ");
 
+// Plausible — a cookieless, no-banner analytics beacon, injected only in
+// production builds (`import.meta.env.PROD`); under `vite dev` it resolves to ""
+// so nothing loads. Default pageview only, no custom events. The standard
+// first-party-able script; serving it behind qovira.ai via the Bunny edge is a
+// deploy-time refinement (QOV-33), not required here. This is a marketing
+// surface, so it doesn't touch the self-hosted product's "nothing phones home".
+const analytics = import.meta.env.PROD ? `<script defer data-domain="qovira.ai" src="https://plausible.io/js/script.js"></script>` : "";
+
 export const handle: Handle = ({ event, resolve }) =>
   resolve(event, {
-    // Function replacer: `themeHead` is a black-box string from the package, so
-    // never let `$`-sequences in it be interpreted as replacement patterns.
-    transformPageChunk: ({ html }) => html.replace("<!--qovira:head-->", () => themeHead),
+    // Function replacers: the injected strings are opaque, so never let any
+    // `$`-sequence in them be read as a replacement pattern.
+    transformPageChunk: ({ html }) => html.replace("<!--qovira:head-->", () => themeHead).replace("<!--qovira:analytics-->", () => analytics),
   });
