@@ -44,7 +44,13 @@ render() { HOME="$PWD/$FONTROOT" rsvg-convert "$@"; }
 
 echo "› OG card (1200x630)"
 render -w 1200 -h 630 "$SRC/og-card.svg" -o "$WORK/og-card.png"
-magick "$WORK/og-card.png" -strip -quality 90 -define webp:method=6 "$OUT/og-card.webp"
+# JPEG, not WebP: LinkedIn, Facebook, and several other unfurl scrapers don't
+# render WebP link previews (they'd show a card with no image). JPEG is rendered
+# everywhere and compresses the card's film-grain glow far better than a lossless
+# PNG (which ballooned to ~660KB). 4:4:4 (no chroma subsampling) keeps the radial
+# gradient banding-free; at ~66KB the larger-than-WebP file is irrelevant to a
+# one-time unfurl fetch.
+magick "$WORK/og-card.png" -strip -interlace JPEG -quality 88 -sampling-factor 4:4:4 "$OUT/og-card.jpg"
 
 echo "› favicon / app-icon set (Keyhole Q)"
 render -w 512 -h 512 "$SRC/icon.svg" -o "$OUT/icon-512.png"

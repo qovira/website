@@ -22,8 +22,11 @@ export const site = {
    * "that runs". See the approved note on QOV-29.
    */
   metaDescription: "Qovira is a private, self-hostable assistant — reminders, notes, calendar, and quick answers, organized by AI on a server you own and a model you choose.",
-  /** Absolute URL of the 1200×630 OG card (QOV-28). */
-  ogImage: "https://qovira.ai/og-card.webp",
+  /**
+   * Absolute URL of the 1200×630 OG card (QOV-28). JPEG, not WebP: LinkedIn and
+   * several unfurl scrapers don't render WebP previews. See build-brand-assets.sh.
+   */
+  ogImage: "https://qovira.ai/og-card.jpg",
   /** The Keyhole-Q logo, absolute, for Organization JSON-LD. */
   logo: "https://qovira.ai/icon-512.png",
   /** The one outbound link, also the Organization sameAs. */
