@@ -108,6 +108,11 @@ short revalidate TTL (documented in `ci.yml`).
   pass before you push to `main` or open a PR — run them and confirm green first.
   Pushing not-yet-passing commits to a **feature branch** is fine; the gate is
   enforced at the `main`/PR boundary, not on every commit.
+- **Keep `CLAUDE.md` and `README.md` current.** Both are documentation that must
+  track reality: when a change alters something either file describes (commands,
+  architecture, the head/SEO or deploy setup, conventions), update the affected
+  doc automatically in the **same** change — never leave it as a follow-up. Stale
+  docs silently mislead every future reader and session.
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `ci:`, `chore:`, `test:`).
 - **Branches:** `project/<name>` (e.g. `project/placeholder-site`); PRs target `main`.
 - **Prettier:** `printWidth: 180`, 2-space, double quotes, trailing commas all

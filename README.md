@@ -33,6 +33,7 @@ pnpm preview    # serve the production build locally
 ```sh
 pnpm check      # svelte-check (types + a11y)
 pnpm lint       # prettier --check + eslint
+pnpm format     # prettier --write (apply formatting in place)
 pnpm test       # Playwright smoke + accessibility
 ```
 
