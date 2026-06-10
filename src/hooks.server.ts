@@ -18,11 +18,22 @@ const themeHead = [
 
 // Plausible — a cookieless, no-banner analytics beacon, injected only in
 // production builds (`import.meta.env.PROD`); under `vite dev` it resolves to ""
-// so nothing loads. Default pageview only, no custom events. The standard
-// first-party-able script; serving it behind qovira.ai via the Bunny edge is a
+// so nothing loads. The dashboard-issued snippet: a per-site async script
+// (`pa-…js`, which encodes the site, so no `data-domain` attr) plus the inline
+// `plausible.init()` stub that queues calls until it loads. Default pageview
+// only, no custom events. Serving it behind qovira.ai via the Bunny edge is a
 // deploy-time refinement (QOV-33), not required here. This is a marketing
 // surface, so it doesn't touch the self-hosted product's "nothing phones home".
-const analytics = import.meta.env.PROD ? `<script defer data-domain="qovira.ai" src="https://plausible.io/js/script.js"></script>` : "";
+const analytics = import.meta.env.PROD
+  ? [
+      `<!-- Privacy-friendly analytics by Plausible -->`,
+      `<script async src="https://plausible.io/js/pa-p65y3Jj0E4KeysiP0l6FE.js"></script>`,
+      `<script>`,
+      `  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};`,
+      `  plausible.init()`,
+      `</script>`,
+    ].join("\n    ")
+  : "";
 
 export const handle: Handle = ({ event, resolve }) =>
   resolve(event, {
