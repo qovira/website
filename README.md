@@ -36,6 +36,14 @@ pnpm lint       # prettier --check + eslint
 pnpm test       # Playwright smoke + accessibility
 ```
 
+`pnpm test` runs against the real prerendered build (it builds and previews
+`build/`, not the dev server). The browser isn't auto-installed — once per
+machine:
+
+```sh
+pnpm exec playwright install --with-deps chromium
+```
+
 ## Brand assets
 
 The OG/social card and the favicon/app-icon set (the Keyhole-Q mark) are
@@ -54,3 +62,24 @@ master in `assets/brand/`, run `pnpm assets`, and commit the regenerated files.
 
 Requires these host tools (not npm deps): `woff2_decompress`, `fonttools`,
 `rsvg-convert` (librsvg), `magick` (ImageMagick 7), `fc-cache`.
+
+## Deploy
+
+Deploys itself — there's nothing to run by hand. On a green push to `main`, CI
+([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the full gate on
+Blacksmith, then ships the prerendered `build/` to Bunny Storage behind the Bunny
+CDN pull zone serving qovira.ai and purges the zone so the change is live
+immediately. It's deployed, not versioned — a marketing page, so no releases or
+changelog. Rollback is re-running the deploy on a prior commit.
+
+## Contributing
+
+Issues and pull requests are welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md)
+for the workflow and scope, and [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md). In
+short: the page defines no visual values of its own — everything comes from
+`@qovira/theme` through `@qovira/ui` — and it must stay accessible (the test
+fails on any axe violation).
+
+## License
+
+[AGPL-3.0-only](./LICENSE).
