@@ -87,14 +87,14 @@ should pass — that's exactly what CI runs.
 
 It's one prerendered SvelteKit route. A few files carry most of the weight:
 
-| Path                            | What it is                                                                                       |
-| ------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `src/routes/+page.svelte`       | The page itself, plus all `<head>` SEO (OG/Twitter/canonical/icons) and the JSON-LD `@graph`.    |
-| `src/lib/site.ts`               | **Single source of truth** for site metadata — name, descriptor, URLs. Edit copy here, not inline. |
-| `src/hooks.server.ts`           | Splices the theme pre-paint boot and the prod-only Plausible beacon into the static `<head>`.     |
-| `src/app.css`                   | Imports Tailwind v4, `@qovira/theme`, its fonts, and `@qovira/ui` (the UI import is load-bearing).|
-| `static/`                       | Generated brand assets + `llms.txt`, `robots.txt`, `sitemap.xml`, icons, manifest.               |
-| `assets/brand/`                 | SVG masters for the brand assets; outputs rebuilt by `pnpm assets`.                               |
+| Path                      | What it is                                                                                         |
+| ------------------------- | -------------------------------------------------------------------------------------------------- |
+| `src/routes/+page.svelte` | The page itself, plus all `<head>` SEO (OG/Twitter/canonical/icons) and the JSON-LD `@graph`.      |
+| `src/lib/site.ts`         | **Single source of truth** for site metadata — name, descriptor, URLs. Edit copy here, not inline. |
+| `src/hooks.server.ts`     | Splices the theme pre-paint boot and the prod-only Plausible beacon into the static `<head>`.      |
+| `src/app.css`             | Imports Tailwind v4, `@qovira/theme`, its fonts, and `@qovira/ui` (the UI import is load-bearing). |
+| `static/`                 | Generated brand assets + `llms.txt`, `robots.txt`, `sitemap.xml`, icons, manifest.                 |
+| `assets/brand/`           | SVG masters for the brand assets; outputs rebuilt by `pnpm assets`.                                |
 
 The page is rendered once at build time (`+layout.ts`: `prerender = true`). More
 architecture detail lives in `CLAUDE.md`.

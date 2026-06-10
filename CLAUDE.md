@@ -48,7 +48,7 @@ dynamic routes, so a fallback would only mask 404s).
 on-page lead, `og:description`, JSON-LD description, and `<meta name="description">`
 all derive from one `site` descriptor object, which is what keeps them in sync.
 Note the deliberate split: `descriptor` (172 chars) is used verbatim everywhere
-*except* `metaDescription`, a ≤155-char trim so the SERP snippet isn't clipped.
+_except_ `metaDescription`, a ≤155-char trim so the SERP snippet isn't clipped.
 If you touch copy, edit `site.ts`, not the markup.
 
 **`+page.svelte` carries all `<head>` SEO** via `<svelte:head>`: title, OG,
@@ -60,8 +60,9 @@ descriptor, GitHub link).
 
 **`src/hooks.server.ts` splices two things into the static `<head>` at prerender
 time**, via `transformPageChunk` replacing placeholders in `src/app.html`:
+
 1. The `@qovira/theme` pre-paint boot (`<!--qovira:head-->`) — imported verbatim
-   from `@qovira/theme/boot`, **never re-implemented**. It must sit *before* the
+   from `@qovira/theme/boot`, **never re-implemented**. It must sit _before_ the
    stylesheets so `data-theme` is on `<html>` before first paint (no flash),
    plus media-scoped `theme-color` metas (Evening `#15100C` dark / Daylight
    `#F1E9DC` light).
