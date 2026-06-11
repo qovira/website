@@ -75,12 +75,12 @@ changelog. Rollback is re-running the deploy on a prior commit.
 
 ## Contributing
 
-Issues and pull requests are welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md)
-for the workflow and scope, and [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md). In
-short: the page defines no visual values of its own — everything comes from
-`@qovira/theme` through `@qovira/ui` — and it must stay accessible (the test
+Contributions are welcome — read [CONTRIBUTING.md](./CONTRIBUTING.md) first, and
+please follow the [Code of Conduct](./CODE_OF_CONDUCT.md). Open an issue before
+sending a PR — the page defines no visual values of its own (everything comes
+from `@qovira/theme` through `@qovira/ui`), and it must stay accessible (the test
 fails on any axe violation).
 
 ## License
 
-[AGPL-3.0-only](./LICENSE).
+[AGPL-3.0-only](./LICENSE) © OMNILIUM ADVANCED CYBERNETICS SRL
