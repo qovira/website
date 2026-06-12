@@ -18,7 +18,9 @@ test.describe("placeholder site", () => {
     await page.goto("/");
 
     // The single <h1> hero headline renders.
-    await expect(page.getByRole("heading", { level: 1, name: "The assistant that never leaves the room." })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 1, name: "The assistant that never leaves the room." }),
+    ).toBeVisible();
 
     // The quiet footer link to the product repo renders and points at GitHub.
     const repoLink = page.getByRole("link", { name: "github.com/qovira/qovira" });

@@ -115,8 +115,6 @@ short revalidate TTL (documented in `ci.yml`).
   docs silently mislead every future reader and session.
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `ci:`, `chore:`, `test:`).
 - **Branches:** `project/<name>` (e.g. `project/placeholder-site`); PRs target `main`.
-- **Prettier:** `printWidth: 180`, 2-space, double quotes, trailing commas all
-  (`prettier-plugin-svelte`).
 - **Runes mode** is forced for project files (`svelte.config.js`); use Svelte 5
   runes (`$props`, `$state`, …).
 - Work items are tracked in Linear (codes like `QOV-29` appear in comments).

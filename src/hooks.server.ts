@@ -39,5 +39,6 @@ export const handle: Handle = ({ event, resolve }) =>
   resolve(event, {
     // Function replacers: the injected strings are opaque, so never let any
     // `$`-sequence in them be read as a replacement pattern.
-    transformPageChunk: ({ html }) => html.replace("<!--qovira:head-->", () => themeHead).replace("<!--qovira:analytics-->", () => analytics),
+    transformPageChunk: ({ html }) =>
+      html.replace("<!--qovira:head-->", () => themeHead).replace("<!--qovira:analytics-->", () => analytics),
   });
