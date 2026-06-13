@@ -29,19 +29,9 @@ jobs:
     runs-on: blacksmith-2vcpu-ubuntu-2404
     steps:
       - uses: actions/checkout@v6
-      # engine-strict (.npmrc) makes pnpm 11's engines.node (>=22.13) a hard
-      # error, and action-setup's self-installer runs under the runner's bundled
-      # Node (v20) — setup-node order can't change that. standalone installs
-      # @pnpm/exe (Node-bundled pnpm, no engines.node field), so the bootstrap
-      # isn't gated on the runner's Node version.
-      - uses: pnpm/action-setup@v6 # version comes from package.json packageManager
-        with:
-          standalone: true
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      # Shared bootstrap: pnpm (standalone) + Node 24 + frozen install. See the
+      # composite action for why standalone dodges the engine-strict bootstrap.
+      - uses: ./.github/actions/setup
       # svelte-check IS the typecheck for a SvelteKit app — it wraps tsc with
       # Svelte support, so a bare `tsc --noEmit` (which can't parse .svelte) is
       # intentionally not a separate step; svelte-check covers the .ts too.
@@ -65,15 +55,7 @@ jobs:
     runs-on: blacksmith-2vcpu-ubuntu-2404
     steps:
       - uses: actions/checkout@v6
-      # standalone @pnpm/exe (see verify) — avoids the engine-strict bootstrap failure.
-      - uses: pnpm/action-setup@v6
-        with:
-          standalone: true
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/setup
       - run: pnpm build
 
       # Push the build to the Storage Zone origin (native Storage HTTP API).

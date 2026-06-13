@@ -1,0 +1,20 @@
+name: Setup toolchain
+description: Bootstrap pnpm (standalone) + Node 24 and install dependencies. Assumes the repo is already checked out.
+
+runs:
+  using: composite
+  steps:
+    # engine-strict (.npmrc) makes pnpm 11's engines.node (>=22.13) a hard error,
+    # and action-setup's self-installer runs under the runner's bundled Node (v20)
+    # — setup-node order can't change that. standalone installs @pnpm/exe
+    # (Node-bundled pnpm, no engines.node field), so the bootstrap isn't gated on
+    # the runner's Node version.
+    - uses: pnpm/action-setup@v6 # version comes from package.json packageManager
+      with:
+        standalone: true
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+        cache: pnpm
+    - run: pnpm install --frozen-lockfile
+      shell: bash
