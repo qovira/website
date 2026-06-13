@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@qovira/theme':
-        specifier: ^1.0.2
-        version: 1.0.2(tailwindcss@4.3.0)
+        specifier: ^1.1.0
+        version: 1.1.0(tailwindcss@4.3.0)
       '@qovira/ui':
-        specifier: ^1
-        version: 1.0.0(@internationalized/date@3.12.2)(@qovira/theme@1.0.2(tailwindcss@4.3.0))(@sveltejs/kit@2.63.1(@sveltejs/vite-plugin-svelte@7.1.2(svelte@5.56.3(@typescript-eslint/types@8.60.1))(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0)))(svelte@5.56.3(@typescript-eslint/types@8.60.1))(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0)))(svelte@5.56.3(@typescript-eslint/types@8.60.1))(tailwindcss@4.3.0)(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0))
+        specifier: ^2.0.0
+        version: 2.0.0(@internationalized/date@3.12.2)(@qovira/theme@1.1.0(tailwindcss@4.3.0))(@sveltejs/kit@2.63.1(@sveltejs/vite-plugin-svelte@7.1.2(svelte@5.56.3(@typescript-eslint/types@8.60.1))(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0)))(svelte@5.56.3(@typescript-eslint/types@8.60.1))(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0)))(svelte@5.56.3(@typescript-eslint/types@8.60.1))(tailwindcss@4.3.0)(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0))
       phosphor-svelte:
         specifier: ^3.1.0
         version: 3.1.0(svelte@5.56.3(@typescript-eslint/types@8.60.1))(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0))
@@ -199,18 +199,18 @@ packages:
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
 
-  '@qovira/theme@1.0.2':
-    resolution: {integrity: sha512-duMekiCI+AHkGp2NMErvTyN9VRm5+q48sxwfoLjD/TsXYOXyivxUYxaVBjcvGMIK25F91RST61AwzKPPAvygyw==}
+  '@qovira/theme@1.1.0':
+    resolution: {integrity: sha512-u4+KQxhxrWakferhAeFrDc1I+/lQoq22D6HJRanW+DM8dc8DBwg5n1K7BURnWYcg2DAXz5VH7FmDosF6BkUICQ==}
     engines: {node: '>=24'}
     peerDependencies:
       tailwindcss: ^4.0.0
 
-  '@qovira/ui@1.0.0':
-    resolution: {integrity: sha512-kdzvC5gDI5WEHjrfUrTragEkZtBvH8fo7qsnRd5KhTNWiuehFjULP4qxTe5Pi+6lztcqKKiB9/L7aLS0XSE6eQ==}
+  '@qovira/ui@2.0.0':
+    resolution: {integrity: sha512-2K5U5g4SID1kgghOyZbtN02YxYsFez9KDSkkXRSOMbPLXTcFSNVPV2V/qAOO7BODcy+YEAiDSdAczGereq8ZYA==}
     engines: {node: '>=24'}
     peerDependencies:
       '@internationalized/date': ^3.8
-      '@qovira/theme': ^1.0.2
+      '@qovira/theme': ^1.1.0
       svelte: ^5
       tailwindcss: ^4
 
@@ -1363,14 +1363,14 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@qovira/theme@1.0.2(tailwindcss@4.3.0)':
+  '@qovira/theme@1.1.0(tailwindcss@4.3.0)':
     dependencies:
       tailwindcss: 4.3.0
 
-  '@qovira/ui@1.0.0(@internationalized/date@3.12.2)(@qovira/theme@1.0.2(tailwindcss@4.3.0))(@sveltejs/kit@2.63.1(@sveltejs/vite-plugin-svelte@7.1.2(svelte@5.56.3(@typescript-eslint/types@8.60.1))(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0)))(svelte@5.56.3(@typescript-eslint/types@8.60.1))(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0)))(svelte@5.56.3(@typescript-eslint/types@8.60.1))(tailwindcss@4.3.0)(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0))':
+  '@qovira/ui@2.0.0(@internationalized/date@3.12.2)(@qovira/theme@1.1.0(tailwindcss@4.3.0))(@sveltejs/kit@2.63.1(@sveltejs/vite-plugin-svelte@7.1.2(svelte@5.56.3(@typescript-eslint/types@8.60.1))(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0)))(svelte@5.56.3(@typescript-eslint/types@8.60.1))(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0)))(svelte@5.56.3(@typescript-eslint/types@8.60.1))(tailwindcss@4.3.0)(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0))':
     dependencies:
       '@internationalized/date': 3.12.2
-      '@qovira/theme': 1.0.2(tailwindcss@4.3.0)
+      '@qovira/theme': 1.1.0(tailwindcss@4.3.0)
       bits-ui: 2.18.1(@internationalized/date@3.12.2)(@sveltejs/kit@2.63.1(@sveltejs/vite-plugin-svelte@7.1.2(svelte@5.56.3(@typescript-eslint/types@8.60.1))(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0)))(svelte@5.56.3(@typescript-eslint/types@8.60.1))(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0)))(svelte@5.56.3(@typescript-eslint/types@8.60.1))
       clsx: 2.1.1
       phosphor-svelte: 3.1.0(svelte@5.56.3(@typescript-eslint/types@8.60.1))(vite@8.0.16(@types/node@24.13.1)(jiti@2.7.0))
