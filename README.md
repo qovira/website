@@ -34,7 +34,7 @@ pnpm preview    # serve the production build locally
 pnpm check      # svelte-check (types + a11y)
 pnpm lint       # prettier --check + eslint
 pnpm format     # prettier --write (apply formatting in place)
-pnpm test       # Playwright smoke + accessibility
+pnpm test       # Playwright e2e — hero, head/SEO, JSON-LD, sitemap, analytics, a11y
 ```
 
 `pnpm test` runs against the real prerendered build (it builds and previews
