@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Container, Stack, Heading, Text, Badge, Icon } from "@qovira/ui";
-  import { GithubLogo } from "phosphor-svelte";
+  import { GithubLogoIcon } from "phosphor-svelte";
   import { site } from "$lib/site";
 
   // One JSON-LD @graph — Organization + WebSite + SoftwareApplication. Values
@@ -41,8 +41,6 @@
   // Built here (not in the template); the closing tag is split across a string
   // concat so it can't prematurely close this component's own script element.
   const jsonLdScript = `<script type="application/ld+json">${jsonLd}</scr` + `ipt>`;
-
-  const ogImageAlt = "Qovira — the assistant that never leaves the room.";
 </script>
 
 <svelte:head>
@@ -69,7 +67,7 @@
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content={ogImageAlt} />
+  <meta property="og:image:alt" content={site.ogImageAlt} />
   <meta property="og:locale" content="en_US" />
 
   <!-- Twitter / X -->
@@ -77,7 +75,7 @@
   <meta name="twitter:title" content={site.title} />
   <meta name="twitter:description" content={site.descriptor} />
   <meta name="twitter:image" content={site.ogImage} />
-  <meta name="twitter:image:alt" content={ogImageAlt} />
+  <meta name="twitter:image:alt" content={site.ogImageAlt} />
 
   <!-- Structured data. Safe: jsonLdScript is fully static, developer-authored
        JSON-LD with no user input (the XSS concern the rule guards against). -->
@@ -96,7 +94,7 @@
         <div aria-hidden="true" class="glow-wrap">
           <div class="glow lamp-glow-pulse"></div>
         </div>
-        <Heading level={1} size="display">The assistant that never leaves the room.</Heading>
+        <Heading level={1} size="display">{site.headline}</Heading>
       </div>
 
       <!-- Descriptor — the plain definition (doubles as the AEO answer + meta description) -->
@@ -113,7 +111,7 @@
         <!-- External absolute URL, not SvelteKit navigation — resolve() does not apply. -->
         <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
         <a href={site.github} class="focus-ring inline-flex items-center gap-1.5 rounded-sm text-link hover:underline">
-          <Icon icon={GithubLogo} decorative />
+          <Icon icon={GithubLogoIcon} decorative />
           github.com/qovira/qovira
         </a>
       </Text>

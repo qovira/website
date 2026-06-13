@@ -12,16 +12,36 @@ const gitignorePath = path.resolve(import.meta.dirname, ".gitignore");
 export default defineConfig(
   includeIgnoreFile(gitignorePath),
   js.configs.recommended,
-  ts.configs.recommended,
+  // House standard (writing-ts): type-aware linting, not the non-type-checked
+  // `recommended` preset. `projectService` resolves each file to its tsconfig
+  // (src/** and the config .ts files are in the project; the handful of
+  // out-of-project files — e2e/**, playwright.config.ts — fall to the default
+  // inferred program), which is what powers rules like no-floating-promises.
+  ts.configs.strictTypeChecked,
+  ts.configs.stylisticTypeChecked,
   svelte.configs.recommended,
   prettier,
   svelte.configs.prettier,
   {
-    languageOptions: { globals: { ...globals.browser, ...globals.node } },
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
+      parserOptions: {
+        // e2e specs and playwright.config.ts live outside the app's tsconfig
+        // (the SvelteKit-generated include is src/** + vite.config); allow them
+        // onto the default inferred program so they're still type-aware-linted.
+        projectService: {
+          allowDefaultProject: ["playwright.config.ts", "e2e/*.ts"],
+        },
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
       // typescript-eslint strongly recommend that you do not use the no-undef lint rule on TypeScript projects.
       // see: https://typescript-eslint.io/troubleshooting/faqs/eslint/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
       "no-undef": "off",
+      // Interpolating a number (e.g. a port) into a string is safe and idiomatic;
+      // re-enable it over strictTypeChecked's default of string-only.
+      "@typescript-eslint/restrict-template-expressions": ["error", { allowNumber: true }],
     },
   },
   {
@@ -36,8 +56,10 @@ export default defineConfig(
     },
   },
   {
-    // Override or add rule settings here, such as:
-    // 'svelte/button-has-type': 'error'
-    rules: {},
+    // The flat-config files themselves are plain ESM JS, not part of the app's
+    // TS project; js.configs.recommended covers them, so turn the type-aware
+    // rules back off rather than feed them through the default program.
+    files: ["**/*.js"],
+    extends: [ts.configs.disableTypeChecked],
   },
 );

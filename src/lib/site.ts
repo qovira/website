@@ -3,10 +3,17 @@
 // markup) is what keeps the on-page lead, og:description, JSON-LD, and the meta
 // description in sync. Immutable static config — safe at module scope.
 
+// Composed below so the OG card alt can mirror the visible hero headline without
+// duplicating either string.
+const name = "Qovira";
+const headline = "The assistant that never leaves the room.";
+
 export const site = {
   /** Canonical origin (trailing slash; the root is the only URL). */
   url: "https://qovira.ai/",
-  name: "Qovira",
+  name,
+  /** The hero headline rendered as the page's <h1>. */
+  headline,
   /** Brand SERP title — name first. */
   title: "Qovira — Your assistant. Yours alone.",
   /**
@@ -28,6 +35,8 @@ export const site = {
    * several unfurl scrapers don't render WebP previews. See build-brand-assets.sh.
    */
   ogImage: "https://qovira.ai/og-card.jpg",
+  /** Alt text for the OG card — brand name plus the hero headline it renders. */
+  ogImageAlt: `${name} — ${headline}`,
   /** The Keyhole-Q logo, absolute, for Organization JSON-LD. */
   logo: "https://qovira.ai/icon-512.png",
   /** The one outbound link, also the Organization sameAs. */
