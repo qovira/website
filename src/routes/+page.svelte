@@ -49,7 +49,7 @@
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href={site.url} />
 
-  <!-- Favicons & app icons (assets produced in QOV-28, served from the static root) -->
+  <!-- Favicons & app icons (served from the static root) -->
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />

@@ -54,4 +54,3 @@ The OG card and favicon/app-icon set (the Keyhole-Q mark) under `static/` are **
 - **Branches:** `project/<name>` (e.g. `project/placeholder-site`); PRs target `main`.
 - **Runes mode** is forced for project files (`svelte.config.js`); use Svelte 5 runes (`$props`, `$state`, …).
 - **Icons: deep-import `phosphor-svelte/lib/<Icon>`, never the package barrel** — an ESLint rule enforces it (type imports exempt), and `pnpm check:bundle` is the catch-all guard. A barrel import inlines phosphor's whole ~3,000-icon set into the route chunk and wrecks LCP; the why is in `conventions:writing-svelte`.
-- Work items are tracked in Linear (codes like `QOV-29` appear in comments).

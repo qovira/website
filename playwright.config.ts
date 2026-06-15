@@ -24,7 +24,7 @@ export default defineConfig({
     {
       name: "chromium",
       // Evening is the brand's marketing default; emulate a dark
-      // `prefers-color-scheme` so the pre-paint boot resolves to it (QOV-27).
+      // `prefers-color-scheme` so the pre-paint boot resolves to it.
       use: { ...devices["Desktop Chrome"], colorScheme: "dark" },
     },
   ],

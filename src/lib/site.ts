@@ -26,12 +26,12 @@ export const site = {
    * A ≤155-char trim of the descriptor for <meta name="description"> only, so
    * the SERP snippet renders in full (the descriptor itself is 172 chars and
    * would be clipped). Faithful to the descriptor — drops only "personal" and
-   * "that runs". See the approved note on QOV-29.
+   * "that runs".
    */
   metaDescription:
     "Qovira is a private, self-hostable assistant — reminders, notes, calendar, and quick answers, organized by AI on a server you own and a model you choose.",
   /**
-   * Absolute URL of the 1200×630 OG card (QOV-28). JPEG, not WebP: LinkedIn and
+   * Absolute URL of the 1200×630 OG card. JPEG, not WebP: LinkedIn and
    * several unfurl scrapers don't render WebP previews. See build-brand-assets.sh.
    */
   ogImage: "https://qovira.ai/og-card.jpg",

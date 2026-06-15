@@ -14,7 +14,7 @@ import { site } from "../src/lib/site";
 // Broader component-state coverage belongs in @qovira/ui, not here.
 test.describe("placeholder site", () => {
   test.beforeEach(async ({ context }) => {
-    // The prod build injects the Plausible beacon (QOV-31). Block the network
+    // The prod build injects the Plausible beacon. Block the network
     // call so the run stays hermetic — the <script> tag still ships in the HTML,
     // which is what the analytics test below asserts.
     await context.route(/plausible\.io/, (route) => route.abort());

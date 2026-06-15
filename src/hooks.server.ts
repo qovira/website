@@ -22,7 +22,7 @@ const themeHead = [
 // (`pa-…js`, which encodes the site, so no `data-domain` attr) plus the inline
 // `plausible.init()` stub that queues calls until it loads. Default pageview
 // only, no custom events. Serving it behind qovira.ai via the Bunny edge is a
-// deploy-time refinement (QOV-33), not required here. This is a marketing
+// deploy-time refinement, not required here. This is a marketing
 // surface, so it doesn't touch the self-hosted product's "nothing phones home".
 const analytics = import.meta.env.PROD
   ? [

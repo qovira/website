@@ -158,9 +158,6 @@ final Conventional Commit message on merge. So:
   what we work from.
 - Your individual commits can be whatever helps you; they won't survive the
   squash.
-- You may notice `QOV-…` identifiers in our commit history. Those are internal
-  Linear references and are **maintainer-only** — please don't add them, and
-  never put them in source, comments, or docs. The codebase stands on its own.
 
 ### Review
 
