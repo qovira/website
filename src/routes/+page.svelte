@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Container, Stack, Heading, Text, Badge, Icon } from "@qovira/ui";
-  import { GithubLogoIcon } from "phosphor-svelte";
+  import GithubLogoIcon from "phosphor-svelte/lib/GithubLogoIcon";
   import { site } from "$lib/site";
 
   // One JSON-LD @graph — Organization + WebSite + SoftwareApplication. Values

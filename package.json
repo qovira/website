@@ -15,6 +15,7 @@
     "prepare": "svelte-kit sync || echo ''",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "check:bundle": "node scripts/check-bundle-size.js",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
     "assets": "bash scripts/build-brand-assets.sh",
@@ -22,7 +23,7 @@
   },
   "dependencies": {
     "@qovira/theme": "^1.1.0",
-    "@qovira/ui": "^2.0.0",
+    "@qovira/ui": "^2.0.1",
     "phosphor-svelte": "^3.1.0"
   },
   "devDependencies": {

@@ -13,6 +13,7 @@ pnpm dev                       # vite dev server (--open to launch a browser)
 pnpm build                     # prerender to build/
 pnpm preview                   # serve the production build locally
 pnpm check                     # svelte-check — types + a11y (this IS the typecheck; no separate tsc)
+pnpm check:bundle              # assert the JS bundle-size budget against build/ (run after pnpm build)
 pnpm lint                      # prettier --check . && eslint .
 pnpm format                    # prettier --write .
 pnpm test                      # Playwright e2e: hero, head/SEO + JSON-LD, sitemap, analytics splice, a11y (see note below)
@@ -44,7 +45,7 @@ The OG card and favicon/app-icon set (the Keyhole-Q mark) under `static/` are **
 
 ## CI & deploy
 
-`.github/workflows/ci.yml`: **verify** (every PR + push to main) → **deploy** (only on push to `main`, after verify passes). Verify runs `pnpm check`, `pnpm lint`, `pnpm test` on a Blacksmith runner (house rule: every job runs on Blacksmith). Deploy uploads `build/` to Bunny Storage (`.github/scripts/bunny-deploy.sh`, native Storage HTTP API, one PUT per file), then purges the pull zone; deploys are serialized and non-cancelable. **Cache-Control is enforced by Bunny Pull Zone edge rules, not in code** — fingerprinted `_app/immutable/*` get a 1-year immutable TTL, everything else a short revalidate TTL (documented in `ci.yml`).
+`.github/workflows/ci.yml`: **verify** (every PR + push to main) → **deploy** (only on push to `main`, after verify passes). Verify runs `pnpm check`, `pnpm lint`, `pnpm build` + `pnpm check:bundle` (the JS bundle-size budget — a tripwire against a barrel import inlining a whole library), then `pnpm test` on a Blacksmith runner (house rule: every job runs on Blacksmith). Deploy uploads `build/` to Bunny Storage (`.github/scripts/bunny-deploy.sh`, native Storage HTTP API, one PUT per file), then purges the pull zone; deploys are serialized and non-cancelable. **Cache-Control is enforced by Bunny Pull Zone edge rules, not in code** — fingerprinted `_app/immutable/*` get a 1-year immutable TTL, everything else a short revalidate TTL (documented in `ci.yml`).
 
 ## Conventions
 
@@ -52,4 +53,5 @@ The OG card and favicon/app-icon set (the Keyhole-Q mark) under `static/` are **
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `ci:`, `chore:`, `test:`).
 - **Branches:** `project/<name>` (e.g. `project/placeholder-site`); PRs target `main`.
 - **Runes mode** is forced for project files (`svelte.config.js`); use Svelte 5 runes (`$props`, `$state`, …).
+- **Icons: deep-import `phosphor-svelte/lib/<Icon>`, never the package barrel** — an ESLint rule enforces it (type imports exempt), and `pnpm check:bundle` is the catch-all guard. A barrel import inlines phosphor's whole ~3,000-icon set into the route chunk and wrecks LCP; the why is in `conventions:writing-svelte`.
 - Work items are tracked in Linear (codes like `QOV-29` appear in comments).

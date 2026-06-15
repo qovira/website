@@ -42,6 +42,24 @@ export default defineConfig(
       // Interpolating a number (e.g. a port) into a string is safe and idiomatic;
       // re-enable it over strictTypeChecked's default of string-only.
       "@typescript-eslint/restrict-template-expressions": ["error", { allowNumber: true }],
+      // Icons MUST be deep-imported (`phosphor-svelte/lib/<Icon>`): phosphor-svelte
+      // ships no `sideEffects: false`, so a barrel import inlines its entire
+      // ~3,000-icon set into the route chunk and wrecks LCP. The bundle-size budget
+      // (check:bundle) is the catch-all; this stops the most likely cause at source.
+      // Type-only imports erase, so they're allowed. See conventions:writing-svelte.
+      "@typescript-eslint/no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "phosphor-svelte",
+              message:
+                "Deep-import icons — `phosphor-svelte/lib/<Icon>` — so they tree-shake; the barrel inlines all ~3,000 icons. See conventions:writing-svelte.",
+              allowTypeImports: true,
+            },
+          ],
+        },
+      ],
     },
   },
   {

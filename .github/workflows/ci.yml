@@ -38,6 +38,11 @@ jobs:
       - run: pnpm check
       # prettier --check . && eslint .
       - run: pnpm lint
+      # Build once, then assert the JS bundle-size budget — a deterministic
+      # tripwire against a barrel import inlining a whole library (the regression
+      # that once tanked LCP). pnpm test rebuilds internally for the e2e preview.
+      - run: pnpm build
+      - run: pnpm check:bundle
       # Playwright browsers aren't auto-installed; the spec uses chromium only.
       - run: pnpm exec playwright install --with-deps chromium
       # Builds, previews, and tests the real prerendered build/ (see playwright.config.ts).
