@@ -83,62 +83,219 @@
   {@html jsonLdScript}
 </svelte:head>
 
-<main class="grid min-h-svh place-items-center px-4 py-16">
-  <Container width="prose">
-    <Stack gap={6} align="center" class="text-center">
-      <!-- Wordmark — capital Q, the i lit honey -->
-      <p class="font-display text-h3 tracking-tight">Qov<span class="text-accent">i</span>ra</p>
+<main class="hero relative grid min-h-svh place-items-center overflow-hidden px-4 py-16">
+  <!-- The room's edges fall to shadow so the single lamp reads as the only light
+       source. Decorative; darkens only the empty margins, never behind text, so
+       contrast is untouched. -->
+  <div aria-hidden="true" class="vignette"></div>
 
-      <!-- Hero headline, with the signature lamp-glow behind it -->
-      <div class="relative isolate">
-        <div aria-hidden="true" class="glow-wrap">
-          <div class="glow lamp-glow-pulse"></div>
-        </div>
-        <Heading level={1} size="display">{site.headline}</Heading>
+  <Container width="prose">
+    <div class="content relative isolate">
+      <!-- The lamp — hung above the wordmark, its warmth pooling down over the
+           headline. The signature lamp-glow motif (Brand & Design): a soft honey
+           radial, breathing slowly like a real flame. The reduced-motion guard
+           freezes it to a still glow (the resting state below is the lit one). -->
+      <div aria-hidden="true" class="lamp">
+        <div class="lamp-halo"></div>
+        <div class="lamp-core"></div>
       </div>
 
-      <!-- Descriptor — the plain definition (doubles as the AEO answer + meta description) -->
-      <Text variant="lead">{site.descriptor}</Text>
+      <Stack gap={6} align="center" class="text-center">
+        <!-- Wordmark — capital Q, the i lit honey, glowing like the room's pilot light -->
+        <p class="wordmark font-display text-h3 tracking-tight">Qov<span class="pilot text-accent">i</span>ra</p>
 
-      <!-- Status tag -->
-      <Badge variant="neutral" class="gap-2 font-mono">
-        <span aria-hidden="true" class="text-accent">●</span>
-        COMING SOON · OPEN SOURCE
-      </Badge>
+        <!-- Hero headline, lit by the lamp above -->
+        <Heading level={1} size="display" class="headline">{site.headline}</Heading>
 
-      <!-- One quiet footer link to the product repo -->
-      <Text variant="small" as="p">
-        <!-- External absolute URL, not SvelteKit navigation — resolve() does not apply. -->
-        <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-        <a href={site.github} class="focus-ring inline-flex items-center gap-1.5 rounded-sm text-link hover:underline">
-          <Icon icon={GithubLogoIcon} decorative />
-          github.com/qovira/qovira
-        </a>
-      </Text>
-    </Stack>
+        <!-- Descriptor — the plain definition (doubles as the AEO answer + meta description) -->
+        <Text variant="lead">{site.descriptor}</Text>
+
+        <!-- Status tag — the honey dot breathes with the lamp: quietly on -->
+        <Badge variant="neutral" class="gap-2 font-mono">
+          <span aria-hidden="true" class="pilot text-accent">●</span>
+          COMING SOON · OPEN SOURCE
+        </Badge>
+
+        <!-- One quiet footer link to the product repo -->
+        <Text variant="small" as="p">
+          <!-- External absolute URL, not SvelteKit navigation — resolve() does not apply. -->
+          <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+          <a href={site.github} class="repo-link focus-ring text-link hover:underline">
+            <Icon icon={GithubLogoIcon} decorative />
+            github.com/qovira/qovira
+          </a>
+        </Text>
+      </Stack>
+    </div>
   </Container>
 </main>
 
 <style>
-  /* The lamp-glow: a soft honey radial behind the headline. The wrapper holds
-     the centering; the inner element carries the theme's `lamp-glow-pulse`
-     (its keyframe drives transform: scale, which must not fight the centering
-     translate). The theme's global reduced-motion guard freezes the pulse, so
-     a static glow remains as the still fallback. */
-  .glow-wrap {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    display: grid;
-    place-items: center;
-    pointer-events: none;
+  /* ───────────────────────────────────────────────────────────────────────
+   * "The warm sanctuary, lamplit." One light source: a honey lamp pooling over
+   * the hero, the room's edges falling to shadow. Everything here is the
+   * lamp-glow motif (Brand & Design) — decorative, accent-as-light only. Ambient
+   * motion is gated behind `prefers-reduced-motion: no-preference`; the resting
+   * state is the lit one, so the still fallback already looks finished.
+   * ─────────────────────────────────────────────────────────────────────── */
+
+  .hero {
+    /* One stacking context for the scene: vignette (0) < lamp (-1, raised by
+       .content) < content (1). */
+    isolation: isolate;
   }
 
-  .glow {
-    width: 140%;
-    aspect-ratio: 7 / 5;
-    border-radius: 9999px;
-    background: radial-gradient(circle, color-mix(in srgb, var(--color-honey-500) 42%, transparent), transparent 68%);
+  /* The room's shadowed edges, framing the lamplit centre. `farthest-corner`
+     anchors the dark end-stop AT the corners — a sized ellipse (e.g. 120%) puts
+     its radius well past the viewport, so the corners only reach a fraction of
+     the ramp and the falloff washes out (especially on cream). */
+  .vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    /* Evening (default): edges fall to black — the brand's evening shadow.
+       Espresso (#1e1712) reads *lighter* than the #15100c field, so black is what
+       actually darkens here. */
+    background: radial-gradient(ellipse farthest-corner at 50% 42%, transparent 32%, rgba(0, 0, 0, 0.62) 100%);
+  }
+  /* Daylight: a warm (espresso-tinted) edge shadow on cream. */
+  :global([data-theme="daylight"]) .vignette {
+    background: radial-gradient(
+      ellipse farthest-corner at 50% 42%,
+      transparent 32%,
+      color-mix(in srgb, #1e1712 38%, transparent) 100%
+    );
+  }
+
+  .content {
+    z-index: 1; /* lifts the scene (and its lamp) above the vignette */
+  }
+
+  /* The lamp: hung above the wordmark, pooling down over the headline. */
+  .lamp {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    z-index: -1; /* behind the text, above the vignette (within .content) */
+    width: 132%;
+    aspect-ratio: 7 / 4;
+    pointer-events: none;
+    transform: translate(-50%, -10%);
+  }
+
+  .lamp-halo,
+  .lamp-core {
+    position: absolute;
+    border-radius: var(--radius-full);
+  }
+
+  /* Wide soft halo — the warmth filling the room. */
+  .lamp-halo {
+    inset: 0;
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-honey-500) 30%, transparent), transparent 70%);
+    filter: blur(26px);
+  }
+
+  /* Tighter brighter core — the bulb itself, centred over the headline. */
+  .lamp-core {
+    inset: 14% 18%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-honey-500) 46%, transparent), transparent 62%);
     filter: blur(12px);
+  }
+  /* On cream the honey reads softer, so the pool is warmed up a touch to stay legible. */
+  :global([data-theme="daylight"]) .lamp-core {
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-honey-500) 52%, transparent), transparent 64%);
+  }
+
+  /* The lit honey letters — the wordmark i and the status dot — carry a soft
+     halo so they read as actually lamplit, not merely coloured. */
+  .pilot {
+    text-shadow: 0 0 12px color-mix(in srgb, var(--color-honey-500) 55%, transparent);
+  }
+
+  /* Warm display type — the brand's gentle SOFT axis for rounded warmth, WONK
+     off (calm, not quirky), opsz pinned to the display optical cut. */
+  .wordmark,
+  :global(.headline) {
+    font-variation-settings:
+      "opsz" 144,
+      "SOFT" 30,
+      "WONK" 0;
+  }
+
+  /* The one quiet link, warming on hover — clay, AA in both themes (clay-700 on
+     cream, clay-400 on espresso). */
+  .repo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem; /* gap-1.5 */
+    border-radius: var(--radius-sm);
+    transition: color var(--duration-base) var(--ease-qovira);
+  }
+  .repo-link:hover {
+    color: var(--accent-clay);
+  }
+
+  /* Ambient life — gated so the resting state above is the still fallback the
+     reduced-motion guard keeps. */
+  @media (prefers-reduced-motion: no-preference) {
+    /* The room lights up once on load… */
+    .content {
+      animation: warm-up 800ms var(--ease-qovira) both;
+    }
+    /* …then the lamp breathes slowly, like a real flame settling in. */
+    .lamp {
+      animation:
+        lamp-in 900ms var(--ease-qovira) both,
+        lamp-breathe 7s ease-in-out 900ms infinite;
+    }
+    .pilot {
+      animation: pilot-breathe 7s ease-in-out 900ms infinite;
+    }
+  }
+
+  @keyframes warm-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes lamp-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -10%) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -10%) scale(1);
+    }
+  }
+
+  @keyframes lamp-breathe {
+    0%,
+    100% {
+      opacity: 0.88;
+      transform: translate(-50%, -10%) scale(0.99);
+    }
+    50% {
+      opacity: 1;
+      transform: translate(-50%, -10%) scale(1.03);
+    }
+  }
+
+  @keyframes pilot-breathe {
+    0%,
+    100% {
+      text-shadow: 0 0 9px color-mix(in srgb, var(--color-honey-500) 45%, transparent);
+    }
+    50% {
+      text-shadow: 0 0 16px color-mix(in srgb, var(--color-honey-500) 70%, transparent);
+    }
   }
 </style>

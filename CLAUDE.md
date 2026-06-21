@@ -26,7 +26,7 @@ pnpm assets                    # regenerate committed brand assets (maintenance 
 
 ## Architecture
 
-One route, `src/routes/+page.svelte`, rendered once at build time. `+layout.ts` sets `prerender = true`, `ssr = true`, no SPA fallback — there are no dynamic routes, so a fallback would only mask 404s.
+One route, `src/routes/+page.svelte`, rendered once at build time. `+layout.ts` sets `prerender = true`, `ssr = true`, `csr = false`, no SPA fallback — there are no dynamic routes, so a fallback would only mask 404s. `csr = false` ships the page as pure prerendered HTML/CSS (zero interactivity → no client hydration runtime, best LCP/CLS); the inline theme boot and Plausible beacon live in `<head>` and are independent of CSR. It also sidesteps the dev-only "removing comments in `transformPageChunk`" warning, which SvelteKit raises only under CSR when `hooks.server.ts` replaces the `<head>` placeholder comments (those aren't Svelte's body hydration markers, so hydration was never actually at risk).
 
 **Edit copy in `src/lib/site.ts`, not the markup — it is the single source of truth for site metadata.** The hero headline, on-page lead, `og:description`, JSON-LD description, OG card alt, and `<meta name="description">` all derive from the one `site` object; that is what keeps them in sync (and lets the e2e suite assert the page against it). Preserve the deliberate split: `descriptor` (172 chars) is used verbatim everywhere _except_ `metaDescription`, a ≤155-char trim so the SERP snippet isn't clipped.
 

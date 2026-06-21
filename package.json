@@ -22,8 +22,8 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "@qovira/theme": "^1.1.0",
-    "@qovira/ui": "^2.0.1",
+    "@qovira/theme": "^2.1.0",
+    "@qovira/ui": "^2.1.0",
     "phosphor-svelte": "^3.1.0"
   },
   "devDependencies": {
